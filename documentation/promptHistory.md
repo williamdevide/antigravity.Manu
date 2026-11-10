@@ -61,12 +61,16 @@ ok, vamos prosseguir, aceito sua ideia inicial.
 ```text
 /agente-orquestrador /grill-me /goal estamos no caminho, mas o visual ainda esta muito quebrado, melhore o ui/ux, implemente o banco no firebase (atualizei os dados no .env para um bd especifico desse projeto). crie um repositorio no github com o mesmo nome do nosso projeto (antigravity.Manu) e publique na nossa vm com o prefixo de projeto "manu". nosso proximo teste já quero fazer na nossa vm.
 ```
-- **Objetivos de Engenharia:**
-  1. Padronizar `.env` com as novas credenciais do Firebase (`antigravitymanu-44a47`) e variáveis `VITE_*`.
-  2. Implementar integração profunda e robusta com o Firebase Firestore (leitura, escrita e escuta em tempo real).
-  3. Redesenhar e polir toda a UI/UX (resolvendo elementos quebrados, tipografia, contraste, espaçamentos, mobile-first profissional, animações suaves e padrão Monday/SENAI de alta fidelidade).
-  4. Criar repositório `antigravity.Manu` no GitHub e fazer push do código.
-  5. Conectar via SSH à VM Oracle (`147.15.2.73`), configurar a aplicação com o prefixo `manu` (Nginx/PM2 ou porta mapeada), fazer deploy e testar a acessibilidade pública.
+- **Ações e Resultados:**
+  1. `.env` e `frontend/.env` padronizados com as credenciais do Firebase `antigravitymanu-44a47`.
+  2. Resolvida a quebra de visual: configurado `base: './'` no Vite, eliminando 404 em assets, polido o CSS, espaçamentos e introduzida a **Visão Tabela** em adição ao **Kanban**.
+  3. Upload de fotos real adicionado no formulário com câmera/galeria via `FileReader`.
+  4. Repositório criado no GitHub: `https://github.com/williamdevide/antigravity.Manu`.
+  5. Deploy completo na VM Oracle (`147.15.2.73`):
+     - Frontend servido via Caddy com TLS em: `https://manu.147.15.2.73.sslip.io/` e `http://147.15.2.73/manu/`.
+     - Backend de notificações rodando via PM2 (`manu-backend`) com rota `/api/*`.
+     - Testes de requisição HTTP 200 OK validados com sucesso.
+
 
 
 
