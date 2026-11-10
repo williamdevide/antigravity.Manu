@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Funções auxiliares de autenticação e RBAC
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      return request.auth.token.role != null ? request.auth.token.role : 'solicitante';
+    }
+    
+    function isManager() {
+      return isAuthenticated() && (getUserRole() == 'gestor' || request.auth.token.email == 'williamdevide@gmail.com');
+    }
+    
+    function isTechnician() {
+      return isAuthenticated() && (getUserRole() == 'tecnico' || isManager());
+    }
+
+    // Regras para a coleção de Ambientes (Rooms)
+    match /rooms/{roomId} {
+      allow read: if true; // Qualquer usuário autenticado ou visitante com QR code pode consultar o ambiente
+      allow write: if isManager(); // Apenas o gestor pode cadastrar ou alterar salas
+    }
+
+    // Regras para as Ordens de Serviço (Tickets)
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated();
+      
+      // Qualquer usuário autenticado pode abrir um chamado
+      allow create: if isAuthenticated() && 
+                    request.resource.data.solicitante.uid == request.auth.uid;
+      
+      // Técnicos podem atualizar status de execução e materiais; Gestores podem tudo (incluindo homologação)
+      allow update: if isTechnician();
+      
+      // Apenas gestor pode deletar registros
+      allow delete: if isManager();
+      
+      // Subcoleção de mensagens internas (chat da OS)
+      match /messages/{messageId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+      }
+    }
+
+    // Regras para configurações do sistema
+    match /settings/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isManager();
+    }
+  }
+}
+

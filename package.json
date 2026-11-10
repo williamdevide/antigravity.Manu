@@ -1,0 +1,17 @@
+{
+  "name": "sig-manu-monorepo",
+  "version": "1.0.0",
+  "description": "Sistema Integrado de Gestão de Manutenção Predial e Escolar - SENAI Ourinhos",
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build": "npm run build:backend && npm run build:frontend",
+    "start:backend": "cd backend && npm run start"
+  },
+  "keywords": ["senai", "manutencao", "antigravity", "react", "firebase"],
+  "author": "SENAI Ourinhos / Google Antigravity",
+  "license": "MIT"
+}
+
